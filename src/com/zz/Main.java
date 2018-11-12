@@ -46,33 +46,21 @@ public class Main {
 	
 	private static void addNewClient(Connection conn) {
 		Statement stmt = null;
-		ResultSet rs = null;
+		int rs = 0;
+		
+		Scanner sc = new Scanner(System.in);
 		
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("INSERT ");
-			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
+			// INSERT INTO table_name (columns)* VALUES (values)*
 			
-			while (rs.next()) {
-				for (int i = 2; i <= 4; i++) {
-			        if (i > 2) 
-			        	System.out.println(",  ");
-			        String columnValue = rs.getString(i);
-			        System.out.print(rsmd.getColumnName(i) + " : " + columnValue);
-				}
-				System.out.println("");
-			}
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate("INSERT INTO clients (name, cf, piva)"
+					+ " VALUES (\"" + sc.next() + "\", \"" + sc.next() + "\", \"" + sc.next() + "\");");
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
 			System.out.println("SQLState: " + e.getMessage());
 			System.out.println("VendorError: " + e.getMessage());
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {}
-				rs = null;
-			}
 			if (stmt != null) {
 				try {
 					stmt.close();
@@ -98,7 +86,7 @@ public class Main {
 			        String columnValue = rs.getString(i);
 			        System.out.print(rsmd.getColumnName(i) + " : " + columnValue);
 				}
-				System.out.println("");
+				System.out.println("\n");
 			}
 		} catch (SQLException e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -143,6 +131,6 @@ public class Main {
 		start(conn1);
 		
 		
-			System.out.println("\nConnection Closed!");
+			System.out.println("Connection Closed!");
 		}
 	}
